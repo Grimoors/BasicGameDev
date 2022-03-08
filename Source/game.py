@@ -10,6 +10,8 @@ The reason for this is that the Drawspace for the game is 1120x631.\n\
 This should fit into your screen and not look too bad. Hopefully.\n\n\
 Press Y on your keyboard when ready.")
 
+    
+
 
 
 else:
