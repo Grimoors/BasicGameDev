@@ -64,6 +64,15 @@ It is Simpler for everyone to just use RGB and hence we will use :
 \033[48;2;<r>;<g>;<b>m     #Select RGB background color
 ``` 
 
+### 4. Non - Blocking Input
+
+We need a way to take input in the game without blocking the runtime at the input space.
+
+The game will keep running in the blackground.
+
+If I visualise the Game as a State Stack - The inputStream is seperated logically from the states, and acts as a general control for the states.
+
+
 ---
 ## Files and Member Functions
 
