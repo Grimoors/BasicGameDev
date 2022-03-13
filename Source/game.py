@@ -1,6 +1,8 @@
+from asyncio.windows_events import NULL
 from multiprocessing.connection import wait
 import sys
 from time import time
+from tracemalloc import start
 
 
 if __name__ == "__main__":
@@ -24,6 +26,7 @@ The reason for this is that the Drawspace for the game is 1120x631.\n\
 This should fit into your screen and not look too bad. Hopefully.\n\n\
 Press Y on your keyboard when ready.")
 
+
     #Start Input Loop
     keys = inputs.NBInput()
     keys.nbTerm()
@@ -40,17 +43,39 @@ Press Y on your keyboard when ready.")
 The reason for this is that the Drawspace for the game is 1120x631.\n\
 This should fit into your screen and not look too bad. Hopefully.\n\n\
 Press Y on your keyboard when ready.")
-
-    #Start Game Loop.
-
+    
+    #until GameLoop - Dev Code, Will be commented out or refactored.
     
 
+    state_staack = State_Stack("start")
 
-    #Show StartScreen
+#Game Loop
+    inGameLoop=True
+    while( inGameLoop ):
+        inputvar = NULL
+        #Process Input, If Present
+        if( keys.kbHit() ):
+            inputvar = keys.getCh()
+            
+        #Process State Stack
+        forward_state_stack(timestep, inputvar)
 
-    
+        #Render Present State Stack
+            #Define The GameBoard.
+                # Drawing Empty "Screen"
+        screen = Vscreen(Global.height, Global.length)
 
-\
+        screen.prep_to_render()
+        #  Base of the State Stack - Welcome Screen.
+            #  Then Render the Game Screen on top
+            #  Then depending on the inputs the state stack changes.
+        for state in state_stack:
+            screen.renderState(state)
+            
+        
+        #Display Final Rendering
+        display(screen)
+
 
 else:
     print("This file \'main.py \' can only be run as a standalone")
