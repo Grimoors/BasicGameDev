@@ -18,6 +18,9 @@ if __name__ == "__main__":
         if( sys.platform == "windows" ):
             from src.misc.InputLoop import input_Windows as inputs
 
+    '''Draw Classes'''
+    from src.draw import screen
+
     #Clear the Screen : 
     scrnCntrl.clrscr() 
 
@@ -63,9 +66,9 @@ Press Y on your keyboard when ready.")
         #Render Present State Stack
             #Define The GameBoard.
                 # Drawing Empty "Screen"
-        screen = Vscreen(Global.height, Global.length)
+        screen = VScreen(Global.scrnHeight, Global.scrnWidth)
 
-        screen.prep_to_render()
+        # screen.prep_to_render()
         #  Base of the State Stack - Welcome Screen.
             #  Then Render the Game Screen on top
             #  Then depending on the inputs the state stack changes.
