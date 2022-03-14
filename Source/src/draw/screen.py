@@ -22,13 +22,6 @@ Updates BGC, FGC, FGCH of an individual pixel in a VScreen Object
 - colorprint -> (pixel) - Upon being given a Pixel as an input, returns the Escape Sequence needed to render that pixel using print( EscSequence , end = '')
 
 '''
-# from curses.ascii import SO
-
-
-# from turtle import width
-
-
-from cgi import test
 
 
 class VPixel:
@@ -158,9 +151,23 @@ class VPixelTypes:
 
     Border ={
         "BGC":"white",
-        "FGC":"black",
+        "FGC":"blackText",
         "FGCH":"-",
         "FRMT":"bold"
+    }
+
+    YellowTextBlackBG ={
+        "BGC":"cyan",
+        "FGC":"redText",
+        "FGCH":"",
+        "FRMT":"unformatted",
+    }
+
+    Template ={
+        "BGC":"",
+        "FGC":"",
+        "FGCH":"",
+        "FRMT":"",
     }
 
 class StaticDraws:
@@ -185,11 +192,28 @@ class StaticDraws:
                 screen.screenGrid[x+y*screen.width].updateVpixel(px.get("BGC"), px.get("FGC") , px.get("FGCH"), px.get("FRMT") )
         return screen
 
+    def displayXCentredText (screenIn, Text, pixelType, y = 2 ):
+        k = len( Text)
+        px = pixelType
+        i=0
+        for x in range ( int (screenIn.width/2) - int(k/2) , int (screenIn.width/2) + int(k/2) + 1 ):
+            screenIn.screenGrid[x+y*screenIn.width].updateVpixel( px.get("BGC"), px.get("FGC") , Text[i] ,px.get("FRMT"))
+            i+=1
+        return screenIn
+    
+    def TitleDisplay(screenIn):
+        return StaticDraws.displayXCentredText( screenIn , "Clash of Clans - BareBones Edition - 2020113002" , VPixelTypes.YellowTextBlackBG , y= 2)
+
+
+        
+
 
 if __name__ == '__main__' :
     def tester_Screen():
-        Screen = Vscreen (40,132)
-        Screen.updateScreenGrid(StaticDraws.DefaultBorder(Screen,40,30))
+        Screen = Vscreen (60,200)
+        Screen.updateScreenGrid(StaticDraws.DefaultBorder(Screen,5,3))
+        # Screen.displayScreen()
+        Screen.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = Screen) )
         Screen.displayScreen()
     
     tester_Screen()
