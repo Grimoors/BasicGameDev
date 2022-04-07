@@ -140,6 +140,24 @@ class Vscreen:
                 print (VPixel.colorprint(self.screenGrid[x+y*self.width]) , end="")
             print()
         pass
+    
+    def drawRegionAt(   screenIn , RegionPixelScreen , x1,y1, width, height ):
+        
+        i =0
+        for y in range(y1, y1+height):
+            for x in range (x1, x1+width):
+                curr = RegionPixelScreen.screenGrid[i]
+                screenIn.screenGrid[x+y*screenIn.width].updateVpixel( curr.BGC , curr.FGC,curr.FGCH,curr.FRMT )
+                i+=1
+        return screenIn
+
+    def fillRegionAt( screenIn, PixelStyleToFill , x1,y1,x2,y2 ):
+        px = PixelStyleToFill
+        for y in range(y1, y2):
+            for x in range (x1, x2):
+                screenIn.screenGrid[x+y*screenIn.width].updateVpixel(px.get("BGC"), px.get("FGC") , px.get("FGCH") ,px.get("FRMT"))
+
+        return screenIn
 
 '''
 Class VPixelTypes
@@ -152,7 +170,7 @@ class VPixelTypes:
     Border ={
         "BGC":"white",
         "FGC":"blackText",
-        "FGCH":"-",
+        "FGCH":" ",
         "FRMT":"bold"
     }
 
@@ -161,6 +179,13 @@ class VPixelTypes:
         "FGC":"redText",
         "FGCH":"",
         "FRMT":"unformatted",
+    }
+
+    FieldBackGround ={
+        "BGC":"green",
+        "FGC":"cyan",
+        "FGCH":" ",
+        "FRMT":"bold",
     }
 
     Template ={
@@ -181,7 +206,7 @@ class StaticDraws:
 
         for y in range(verthickness):
             for x in range(screen.width):
-                screen.screenGrid[x+y*screen.width].updateVpixel(   px.get("BGC"), px.get("FGC") , px.get("FGCH") ,px.get("FRMT") )
+                screen.screenGrid[x+y*screen.width].updateVpixel( px.get("BGC"), px.get("FGC") , px.get("FGCH"),px.get("FRMT") )
         for y in range (verthickness, screen.height - verthickness):
             for x in range(latthickness):
                 screen.screenGrid[x+y*screen.width].updateVpixel(px.get("BGC"), px.get("FGC") , px.get("FGCH"),px.get("FRMT") )
@@ -204,6 +229,8 @@ class StaticDraws:
     def TitleDisplay(screenIn):
         return StaticDraws.displayXCentredText( screenIn , "Clash of Clans - BareBones Edition - 2020113002" , VPixelTypes.YellowTextBlackBG , y= 2)
 
+    def PlayBackground(screenIn):
+        return Vscreen.fillRegionAt(screenIn= screenIn , PixelStyleToFill= VPixelTypes.FieldBackGround , x1=3, x2=screenIn.width-3 ,y1=5 ,y2 = screenIn.height-5 )
 
         
 
@@ -214,6 +241,7 @@ if __name__ == '__main__' :
         Screen.updateScreenGrid(StaticDraws.DefaultBorder(Screen,5,3))
         # Screen.displayScreen()
         Screen.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = Screen) )
+        Screen.updateScreenGrid(StaticDraws.PlayBackground(screenIn= Screen))
         Screen.displayScreen()
     
     tester_Screen()
