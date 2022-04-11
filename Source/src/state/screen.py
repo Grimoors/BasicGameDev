@@ -24,9 +24,9 @@ Updates BGC, FGC, FGCH of an individual pixel in a VScreen Object
 '''
 
 
-from board.board import * 
-from board.cannon import *
-from board.entitymodel import *
+# from board.board import * 
+# from board.cannon import *
+# from board.entitymodel import *
 
 
 class VPixel:
@@ -250,11 +250,11 @@ if __name__ == '__main__' :
         # Screen.displayScreen()
         Screen.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = Screen) )
         Screen.updateScreenGrid(StaticDraws.PlayBackground(screenIn= Screen))
-        Screen.updateScreenGrid()
-        Board = BoardGrid(Screen,200,60)
-        Can1 = cannon()
-        Board.ids[0]=EntityId( 2,2,4,4,0,"cannon")
-        Screen.updateScreenGrid(StaticDraws.EntityDisplay(Screen,Can1))
+        # Screen.updateScreenGrid()
+        # Board = BoardGrid(Screen,200,60)
+        # Can1 = cannon()
+        # Board.ids[0]=EntityId( 2,2,4,4,0,"cannon")
+        # Screen.updateScreenGrid(StaticDraws.EntityDisplay(Screen,Can1))
         Screen.displayScreen()
     
     tester_Screen()

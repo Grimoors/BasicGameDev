@@ -1,6 +1,6 @@
 from distutils.log import error
 # from tkinter import Grid
-from entitymodel import *
+# import entitymodel
 from numpy import empty
 import numpy as np
 
@@ -29,7 +29,7 @@ if "__name__" != "__main__":
         def __init__(self, width , height) -> None:
             self.width = width
             self.height = height
-            self.ids=np.array(dtype=EntityId)
+            self.ids=np.array(dtype=entitymodel.EntityId)
             self.ymax = self.height
             self.xmax = self.width 
 
@@ -57,7 +57,7 @@ if "__name__" != "__main__":
                         cell.occupancyType={"obstacle":True}
                         pass
                     
-                    self.ids = np.append(self.ids, EntityId (x1,y1,x2,y2,len(self.ids),object.name) )
+                    self.ids = np.append(self.ids, entitymodel.EntityId (x1,y1,x2,y2,len(self.ids),object.name) )
                     continue
                 pass
             else:
