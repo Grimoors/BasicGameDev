@@ -1,6 +1,6 @@
 from distutils.log import error
 # from tkinter import Grid
-from ..entities import entitymodel
+from entities import entitymodel
 from numpy import empty
 import numpy as np
 

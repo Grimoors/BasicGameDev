@@ -1,18 +1,14 @@
-'''
-NBInput
-=======
-This class deals with non-blocking input.
-This was obtained from a Github Repo. Moss be damned. 
-'''
-
 import sys
 import select
 import tty
 import termios
-import signal
 
+import subprocess as sp
 
 class NBInput:
+    '''
+    class to deal with non-blocking input
+    '''
 
     def __init__(self):
         '''
@@ -52,24 +48,16 @@ class NBInput:
         '''
         termios.tcflush(sys.stdin, termios.TCIOFLUSH)
 
-
-class AlarmException(Exception):
-    """Handling alarm exception."""
-    pass
-
-def alarmHandler(signum, frame):
-    """Handling timeouts."""
-    raise AlarmException
-
-
-def input_to(getch, timeout=0.1):
-    """Taking input from user."""
-    signal.signal(signal.SIGALRM, alarmHandler)
-    signal.setitimer(signal.ITIMER_REAL, timeout)
-    try:
-        text = getch()
-        signal.alarm(0)
-        return text
-    except AlarmException:
-        signal.signal(signal.SIGALRM, signal.SIG_IGN)
-        return None
+if __name__ == "__main__":
+    keys=NBInput()
+    keys.nbTerm() #enable non-blocking input
+    keys.flush()
+    k=keys.getCh()
+    print(k)
+    input=""
+    while input!='q':
+        if keys.kbHit(): # poll for input
+            input = keys.getCh()
+            print(input)
+        print('.',end="")
+    keys.orTerm()

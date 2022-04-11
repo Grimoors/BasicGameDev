@@ -1,7 +1,7 @@
-from asyncio.windows_events import NULL
+# from asyncio.windows_events import NULL
 from multiprocessing.connection import wait
 import sys
-from time import time
+import time
 from tracemalloc import start
 
 
@@ -39,7 +39,7 @@ Press Y on your keyboard when ready.")
         ch1 = keys.getCh()
         if(ch1 == "Y"):
             print ("Starting in 1 sec")
-            wait(time(1))
+            time.sleep(1)
             break
         else:
             print("Please Set the terminal window screen to 1280x720\n\
@@ -50,34 +50,35 @@ Press Y on your keyboard when ready.")
     #until GameLoop - Dev Code, Will be commented out or refactored.
     
 
-    state_staack = State_Stack("start")
+    # state_staack = State_Stack("start")
 
 #Game Loop
     inGameLoop=True
     while( inGameLoop ):
-        inputvar = NULL
+        inputvar = ""
         #Process Input, If Present
         if( keys.kbHit() ):
             inputvar = keys.getCh()
-            
+            print(inputvar)
+            keys.flush()
         #Process State Stack
         forward_state_stack(timestep, inputvar)
 
         #Render Present State Stack
             #Define The GameBoard.
                 # Drawing Empty "Screen"
-        screen = VScreen(Global.scrnHeight, Global.scrnWidth)
+        # screen = VScreen(Global.scrnHeight, Global.scrnWidth)
 
         # screen.prep_to_render()
         #  Base of the State Stack - Welcome Screen.
             #  Then Render the Game Screen on top
             #  Then depending on the inputs the state stack changes.
-        for state in state_stack:
-            screen.renderState(state)
+        # for state in state_stack:
+        #     screen.renderState(state)
             
         
         #Display Final Rendering
-        display(screen)
+        # display(screen)
 
 
 else:
