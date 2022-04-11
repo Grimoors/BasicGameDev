@@ -1,6 +1,6 @@
 from distutils.log import error
 # from tkinter import Grid
-from entities import entitymodel
+from entities.entitymodel import entitymodel as entitymodel
 from numpy import empty
 import numpy as np
 
@@ -66,6 +66,7 @@ if "__name__" != "__main__":
             pass
         
         def find_in_grid(self):
+            
             pass
         
         def read_grid(self):

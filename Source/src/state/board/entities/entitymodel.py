@@ -1,6 +1,9 @@
+import math
 from re import X
 from typing import Type
 from numpy import true_divide
+
+# from ..draw.screen import screen as screen
 
 
 class Entity:
@@ -31,6 +34,11 @@ class Entity:
         if Board.ids[id].x2 == Board.xmax :
             Board.ids[id].x2-=1
             Board.ids[id].x2-=1
+    
+    # def getPixelScreen(id, Board):
+    #         Screen = screen.Vscreen( (Board.ids[id].y2 - Board.ids[id].y) , (Board.ids[id].x2 - Board.ids[id].x) )
+    #         Screen.screenGrid = Board.ids[id].entityPixels.screenGrid[Board.ids[id].y*Board.ids[id].x:Board.ids[id].y2*Board.ids[id].x2]
+    #         return Screen
 
 
 class EntityId :

@@ -24,6 +24,11 @@ Updates BGC, FGC, FGCH of an individual pixel in a VScreen Object
 '''
 
 
+from board.board import * 
+from board.entities.cannon import *
+from board.entities.entitymodel import *
+
+
 class VPixel:
     # Constructor
     def __init__(self) -> None:
@@ -232,6 +237,9 @@ class StaticDraws:
     def PlayBackground(screenIn):
         return Vscreen.fillRegionAt(screenIn= screenIn , PixelStyleToFill= VPixelTypes.FieldBackGround , x1=3, x2=screenIn.width-3 ,y1=5 ,y2 = screenIn.height-5 )
 
+    def EntityDisplay(screenIn, entity):
+        return Vscreen.drawRegionAt(screenIn, entity.getPixelScreen(), entity.x, entity.y, entity.width, entity.height)
+
         
 
 
@@ -242,6 +250,11 @@ if __name__ == '__main__' :
         # Screen.displayScreen()
         Screen.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = Screen) )
         Screen.updateScreenGrid(StaticDraws.PlayBackground(screenIn= Screen))
+        Screen.updateScreenGrid()
+        Board = BoardGrid(Screen,200,60)
+        Can1 = cannon()
+        Board.ids[0]=EntityId( 2,2,4,4,0,"cannon")
+        Screen.updateScreenGrid(StaticDraws.EntityDisplay(Screen,Can1))
         Screen.displayScreen()
     
     tester_Screen()

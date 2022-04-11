@@ -3,6 +3,9 @@ from multiprocessing.connection import wait
 import sys
 import time
 from tracemalloc import start
+from turtle import Screen
+
+from src.state.defstate import states
 
 
 if __name__ == "__main__":
@@ -19,7 +22,7 @@ if __name__ == "__main__":
             from src.misc.InputLoop import input_Windows as inputs
 
     '''Draw Classes'''
-    from src.draw import screen
+    # from src.draw import screen
 
     #Clear the Screen : 
     scrnCntrl.clrscr() 
@@ -50,7 +53,7 @@ Press Y on your keyboard when ready.")
     #until GameLoop - Dev Code, Will be commented out or refactored.
     
 
-    # state_staack = State_Stack("start")
+    gSstack = states()
 
 #Game Loop
     inGameLoop=True
@@ -59,10 +62,69 @@ Press Y on your keyboard when ready.")
         #Process Input, If Present
         if( keys.kbHit() ):
             inputvar = keys.getCh()
-            print(inputvar)
+            # print(inputvar)
             keys.flush()
+        
+        #Get Current State
+        currState = gSstack.peek()
+        # print(currState)
+        # print(currState["state"])
+        # print(currState["screen"])
+        # print(currState["timestep"])
+        # print(currState["input"])
+        # print(currState["onPop"])
+        # print(currState["toPop"])
+
+        #Check if State is to be popped
+        if(currState["toPop"] == inputvar):
+            gSstack.pop()
+            # print("Popped")
+            # print(gSstack.peek())
+        
+        #Check if a State is to be pushed
+        if(currState["onPop"] == inputvar):
+            # print("Pushing")
+            # print(currState["onPop"])
+            # print(currState["toPop"])
+            p = gSstack.StateList.indexOf(currState["onPop"])
+            gSstack.push(  gSstack.StateJsons[ p ] )
+            # print(gSstack.peek())
+
+        #Check if Quit State
+        if(currState["state"] == "quit"):
+            inGameLoop = False
+            print("Quitting") 
+            # print(gSstack.peek())
+
+        #Check if State is to be Flushed
+        if(currState["state"] == "flush"):
+            gSstack.flush()
+            gSstack.push( gSstack.StateJsons[0] )
+            # print("Flushed")
+            # print(gSstack.peek())
+        
+        #Check if State is to be Reset
+        if(currState["state"] == "reset"):
+            gSstack.pop()
+            gSstack.push(currState["onPop"])
+            # print("Reset")
+            # print(gSstack.peek())
+
+        #Check if State is to be Processed before next cycle
+        currState = gSstack.peek()
+        if(currState["timestep"] != 0 ):
+            currState,State = ProcessState(currState,Screen)
+        
+        Screen.displayScreen()
+
+        
+
+        
+
+        
+        
         #Process State Stack
-        forward_state_stack(timestep, inputvar)
+        # forward_state_stack(timestep, inputvar)
 
         #Render Present State Stack
             #Define The GameBoard.
