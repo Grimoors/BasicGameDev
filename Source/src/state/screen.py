@@ -25,8 +25,8 @@ Updates BGC, FGC, FGCH of an individual pixel in a VScreen Object
 
 
 from board.board import * 
-from board.entities.cannon import *
-from board.entities.entitymodel import *
+from board.cannon import *
+from board.entitymodel import *
 
 
 class VPixel:

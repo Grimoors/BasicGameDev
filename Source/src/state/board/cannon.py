@@ -1,6 +1,3 @@
-from Source.src.draw import screen
-
-
 class cannon:
     def __init__(self) -> None:
         self.attriDict={
@@ -19,6 +16,4 @@ class cannon:
         self.currHp = self.attriDict.get("hp")
         self.type = "defbuild"
         self.name = "cannon"
-        self.entityPixels = screen.Vscreen(2,2)
-        self.entityPixels.fillRegionAt( self.displayDict ,0,0 ,2, 2)
         

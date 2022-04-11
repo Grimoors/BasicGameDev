@@ -61,7 +61,7 @@ class EntityId :
         self.setValues(self, self.Name)
     
     def setValues(self, TypeName):
-        from ..entities import TypeName as Type
+        from . import TypeName as Type
         self.attriDict=Type.attriDict
         self.currHp = self.attriDict.get("hp")
 
