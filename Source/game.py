@@ -3,9 +3,45 @@ from multiprocessing.connection import wait
 import sys
 import time
 from tracemalloc import start
-from turtle import Screen
-
+# from turtle import Screen
+from src.state.screen import *
 from src.state.defstate import states
+
+
+def ProcessState(currState,ScreenIn):
+    
+    nextState = currState
+    ScreenOut = ScreenIn
+    print("Current State:", nextState)
+    if (nextState.get("state") == "start"):
+        ScreenOut = Vscreen (60,200)
+        ScreenOut.updateScreenGrid(StaticDraws.DefaultBorder(ScreenOut,5,3))
+        ScreenOut.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = ScreenOut) )
+        ScreenOut.updateScreenGrid(StaticDraws.PlayBackground(screenIn= ScreenOut))
+    
+    if (nextState.get("state") == "game" ):
+        pass
+
+    if (nextState.get("state") == "titlemenu" ):
+        ScreenOut =Vscreen(60,200)
+        ScreenOut.updateScreenGrid(StaticDraws.DefaultBorder(ScreenOut,5,3))
+        ScreenOut.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = ScreenOut) )
+        ScreenOut.updateScreenGrid(StaticDraws.PlayBackground(screenIn= ScreenOut))
+
+    if(nextState.get("state") == "gameover"):
+        pass
+
+    if(nextState.get("state") == "quit"):
+        pass
+
+    if(nextState.get("state") == "pausemenu"):
+        pass
+
+    if(nextState.get("state") == "levelselect"):
+        pass
+
+    return nextState, ScreenOut
+    
 
 
 if __name__ == "__main__":
@@ -54,6 +90,7 @@ Press Y on your keyboard when ready.")
     
 
     gSstack = states()
+    gScreen = Vscreen (60,200)
 
 #Game Loop
     inGameLoop=True
@@ -95,6 +132,7 @@ Press Y on your keyboard when ready.")
             inGameLoop = False
             print("Quitting") 
             # print(gSstack.peek())
+            sys.exit(0)
 
         #Check if State is to be Flushed
         if(currState["state"] == "flush"):
@@ -112,10 +150,11 @@ Press Y on your keyboard when ready.")
 
         #Check if State is to be Processed before next cycle
         currState = gSstack.peek()
-        if(currState["timestep"] != 0 ):
-            currState,State = ProcessState(currState,Screen)
         
-        Screen.displayScreen()
+        currState,gScreen = ProcessState(currState,gScreen)
+        
+
+        gScreen.displayScreen()
 
         
 

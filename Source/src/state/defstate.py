@@ -4,7 +4,7 @@ import time as time
 import os as os
 import random as random
 import math as math
-import screen as screen
+from .screen import *
 
 if __name__ == "__main__":
     print("This module at \"/src/\" can NOT run standalone")
