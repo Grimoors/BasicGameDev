@@ -37,14 +37,7 @@ else:
 
         def __init__(self):
             self.stack = []
-            json = {
-                "state": "start",
-                "screen" : "start",
-                "timestep": 0,
-                "onPop": "quit",
-                "toPop": "-",
-            }
-            self.stack.append(json)
+            self.stack.append( states.StateJsons[ states.StateList.index("start") ] )
         
         def push(self, state):
             self.stack.append(state)
@@ -93,49 +86,57 @@ else:
                 "screen" : "start",
                 "timestep": 0,
                 "onPop": "quit",
-                "toPop": "-", }     ,
+                "toPop": "-",
+                "toQuit":"=", }     ,
                 
                 { "state": "game",
                 "screen" : "game",
                 "timestep": 1,
                 "onPop": "pausemenu",
-                "toPop": "~", }     ,
+                "toPop": "~",
+                "toQuit":"=", }     ,
 
                 { "state": "titlemenu",
                 "screen" : "titlemenu",
                 "timestep": 0,
                 "onPop": "start",
-                "toPop": "-", }     ,
+                "toPop": "-",
+                "toQuit":"=", }     ,
                 
                 { "state": "levelselect",
                 "screen" : "levelselect",
                 "timestep": 0,
                 "onPop": "start",
-                "toPop": "~", }     ,
+                "toPop": "~",
+                "toQuit":"=", }     ,
 
                 { "state": "pausemenu",
                 "screen" : "pausemenu",
                 "timestep": 0,
                 "onPop": "game",
-                "toPop": "~", }     ,
+                "toPop": "~",
+                "toQuit":"=", }     ,
 
                 { "state": "quit",
                 "screen" : "quit",
                 "timestep": 0,
-                "onPop": "",
-                "toPop": "", }     ,
+                "onPop": "quit",
+                "toPop": "=",
+                "toQuit":"=", }     ,
 
                 { "state": "flush",
                 "screen" : "flush",
                 "timestep": 0,
                 "onPop": "",
-                "toPop": "", }     ,
+                "toPop": "",
+                "toQuit":"=", }     ,
 
                 { "state": "reset",
                 "screen" : "reset",
                 "timestep": 0,
                 "onPop": "",
-                "toPop": "", }     ,
+                "toPop": "",
+                "toQuit":"=", }     ,
                                         ]   
         
             

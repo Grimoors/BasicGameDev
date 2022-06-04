@@ -29,6 +29,9 @@ Updates BGC, FGC, FGCH of an individual pixel in a VScreen Object
 # from board.entitymodel import *
 
 
+from re import S
+
+
 class VPixel:
     # Constructor
     def __init__(self) -> None:
@@ -179,6 +182,13 @@ class VPixelTypes:
         "FRMT":"bold"
     }
 
+    BlackBorder ={
+        "BGC":"black",
+        "FGC":"blackText",
+        "FGCH":" ",
+        "FRMT":"bold"
+    }
+
     YellowTextBlackBG ={
         "BGC":"cyan",
         "FGC":"redText",
@@ -222,11 +232,31 @@ class StaticDraws:
                 screen.screenGrid[x+y*screen.width].updateVpixel(px.get("BGC"), px.get("FGC") , px.get("FGCH"), px.get("FRMT") )
         return screen
 
+    def BlackBorder (screenIn, asy, asx):
+        screen = screenIn
+        latthickness =  int ( screen.width / 10 )  if  (int ( screen.width / 10 ) < asx ) else asx 
+        verthickness = int ( screen.height / 10 ) if ( int ( screen.height / 10 ) < asy ) else asy
+        
+        px = VPixelTypes.BlackBorder
+
+        for y in range(verthickness):
+            for x in range(screen.width):
+                screen.screenGrid[x+y*screen.width].updateVpixel( px.get("BGC"), px.get("FGC") , px.get("FGCH"),px.get("FRMT") )
+        for y in range (verthickness, screen.height - verthickness):
+            for x in range(latthickness):
+                screen.screenGrid[x+y*screen.width].updateVpixel(px.get("BGC"), px.get("FGC") , px.get("FGCH"),px.get("FRMT") )
+            for x in range(screen.width - latthickness, screen.width):
+                screen.screenGrid[x+y*screen.width].updateVpixel(px.get("BGC"), px.get("FGC") , px.get("FGCH"),px.get("FRMT") )
+        for y in range(screen.height - verthickness , screen.height):
+            for x in range(screen.width):
+                screen.screenGrid[x+y*screen.width].updateVpixel(px.get("BGC"), px.get("FGC") , px.get("FGCH"), px.get("FRMT") )
+        return screen
+
     def displayXCentredText (screenIn, Text, pixelType, y = 2 ):
         k = len( Text)
         px = pixelType
         i=0
-        for x in range ( int (screenIn.width/2) - int(k/2) , int (screenIn.width/2) + int(k/2) + 1 ):
+        for x in range ( int (screenIn.width/2) - int(k/2) , int (screenIn.width/2) + int(k/2) ):
             screenIn.screenGrid[x+y*screenIn.width].updateVpixel( px.get("BGC"), px.get("FGC") , Text[i] ,px.get("FRMT"))
             i+=1
         return screenIn
@@ -237,6 +267,19 @@ class StaticDraws:
     def PlayBackground(screenIn):
         return Vscreen.fillRegionAt(screenIn= screenIn , PixelStyleToFill= VPixelTypes.FieldBackGround , x1=3, x2=screenIn.width-3 ,y1=5 ,y2 = screenIn.height-5 )
 
+    def QuitDisplay(screenIn):
+        ScreenOut = screenIn
+        ScreenOut.updateScreenGrid(StaticDraws.BlackBorder(ScreenOut,5,3))
+        ScreenOut.updateScreenGrid(StaticDraws.PlayBackground(screenIn= ScreenOut))
+        ScreenOut.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = ScreenOut) )
+        ScreenOut.updateScreenGrid( StaticDraws.displayXCentredText( screenIn = ScreenOut , Text = "Quitting the Game :/ " , pixelType = VPixelTypes.YellowTextBlackBG , y = screenIn.height - 25 ) )
+        ScreenOut.updateScreenGrid(StaticDraws.displayXCentredText(screenIn=ScreenOut , Text = "Nice to see u" , pixelType = VPixelTypes.YellowTextBlackBG , y = screenIn.height - 10))
+        return ScreenOut
+    
+    def GameOverDisplay(screenIn):
+        return StaticDraws.displayXCentredText( screenIn=screenIn, Text="Game Over", pixelType=VPixelTypes.YellowTextBlackBG, y=screenIn.height-25)
+
+
     def EntityDisplay(screenIn, entity):
         return Vscreen.drawRegionAt(screenIn, entity.getPixelScreen(), entity.x, entity.y, entity.width, entity.height)
 
@@ -245,13 +288,13 @@ class StaticDraws:
 
 if __name__ == '__main__' :
     def tester_Screen():
-        Screen = Vscreen (60,200)
+        Screen = Vscreen (59,197)
         Screen.updateScreenGrid(StaticDraws.DefaultBorder(Screen,5,3))
         # Screen.displayScreen()
         Screen.updateScreenGrid( StaticDraws.TitleDisplay( screenIn = Screen) )
         Screen.updateScreenGrid(StaticDraws.PlayBackground(screenIn= Screen))
         # Screen.updateScreenGrid()
-        # Board = BoardGrid(Screen,200,60)
+        # Board = BoardGrid(Screen,197,59)
         # Can1 = cannon()
         # Board.ids[0]=EntityId( 2,2,4,4,0,"cannon")
         # Screen.updateScreenGrid(StaticDraws.EntityDisplay(Screen,Can1))
